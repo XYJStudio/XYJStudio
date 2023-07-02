@@ -1,0 +1,327 @@
+状态 9冲突：2 项偏移/归约
+
+
+语法
+
+    0 $accept: line_list $end
+
+    1 line_list: line
+    2          | line_list line
+
+    3 line: expression CR
+
+    4 expression: term
+    5           | expression ADD term
+    6           | expression SUB term
+
+    7 term: primary_expression
+    8     | term MUL primary_expression
+    9     | term DIV primary_expression
+
+   10 primary_expression: DOUBLE_LITERAL
+   11                   | LP expression RP
+   12                   | SUB primary_expression
+   13                   | primary_expression SUB1
+   14                   | primary_expression ADD1
+
+
+终结语词，附有它们出现处的规则
+
+    $end (0) 0
+    error (256)
+    DOUBLE_LITERAL <double_value> (258) 10
+    ADD (259) 5
+    SUB (260) 6 12
+    MUL (261) 8
+    DIV (262) 9
+    CR (263) 3
+    LP (264) 11
+    RP (265) 11
+    SUB1 (266) 13
+    ADD1 (267) 14
+
+
+非终结语词，附有它们出现处的规则
+
+    $accept (13)
+        on left: 0
+    line_list (14)
+        on left: 1 2
+        on right: 0 2
+    line (15)
+        on left: 3
+        on right: 1 2
+    expression <double_value> (16)
+        on left: 4 5 6
+        on right: 3 5 6 11
+    term <double_value> (17)
+        on left: 7 8 9
+        on right: 4 5 6 8 9
+    primary_expression <double_value> (18)
+        on left: 10 11 12 13 14
+        on right: 7 8 9 12 13 14
+
+
+状态 0
+
+    0 $accept: • line_list $end
+
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    line_list           转到状态 4
+    line                转到状态 5
+    expression          转到状态 6
+    term                转到状态 7
+    primary_expression  转到状态 8
+
+
+状态 1
+
+   10 primary_expression: DOUBLE_LITERAL •
+
+    $default  使用规则 10 以归约 (primary_expression)
+
+
+状态 2
+
+   12 primary_expression: SUB • primary_expression
+
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    primary_expression  转到状态 9
+
+
+状态 3
+
+   11 primary_expression: LP • expression RP
+
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    expression          转到状态 10
+    term                转到状态 7
+    primary_expression  转到状态 8
+
+
+状态 4
+
+    0 $accept: line_list • $end
+    2 line_list: line_list • line
+
+    $end            偏移，并进入状态 11
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    line                转到状态 12
+    expression          转到状态 6
+    term                转到状态 7
+    primary_expression  转到状态 8
+
+
+状态 5
+
+    1 line_list: line •
+
+    $default  使用规则 1 以归约 (line_list)
+
+
+状态 6
+
+    3 line: expression • CR
+    5 expression: expression • ADD term
+    6           | expression • SUB term
+
+    ADD  偏移，并进入状态 13
+    SUB  偏移，并进入状态 14
+    CR   偏移，并进入状态 15
+
+
+状态 7
+
+    4 expression: term •
+    8 term: term • MUL primary_expression
+    9     | term • DIV primary_expression
+
+    MUL  偏移，并进入状态 16
+    DIV  偏移，并进入状态 17
+
+    $default  使用规则 4 以归约 (expression)
+
+
+状态 8
+
+    7 term: primary_expression •
+   13 primary_expression: primary_expression • SUB1
+   14                   | primary_expression • ADD1
+
+    SUB1  偏移，并进入状态 18
+    ADD1  偏移，并进入状态 19
+
+    $default  使用规则 7 以归约 (term)
+
+
+状态 9
+
+   12 primary_expression: SUB primary_expression •
+   13                   | primary_expression • SUB1
+   14                   | primary_expression • ADD1
+
+    SUB1  偏移，并进入状态 18
+    ADD1  偏移，并进入状态 19
+
+    SUB1      [使用规则 12 以归约 (primary_expression)]
+    ADD1      [使用规则 12 以归约 (primary_expression)]
+    $default  使用规则 12 以归约 (primary_expression)
+
+
+状态 10
+
+    5 expression: expression • ADD term
+    6           | expression • SUB term
+   11 primary_expression: LP expression • RP
+
+    ADD  偏移，并进入状态 13
+    SUB  偏移，并进入状态 14
+    RP   偏移，并进入状态 20
+
+
+状态 11
+
+    0 $accept: line_list $end •
+
+    $default  接受
+
+
+状态 12
+
+    2 line_list: line_list line •
+
+    $default  使用规则 2 以归约 (line_list)
+
+
+状态 13
+
+    5 expression: expression ADD • term
+
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    term                转到状态 21
+    primary_expression  转到状态 8
+
+
+状态 14
+
+    6 expression: expression SUB • term
+
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    term                转到状态 22
+    primary_expression  转到状态 8
+
+
+状态 15
+
+    3 line: expression CR •
+
+    $default  使用规则 3 以归约 (line)
+
+
+状态 16
+
+    8 term: term MUL • primary_expression
+
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    primary_expression  转到状态 23
+
+
+状态 17
+
+    9 term: term DIV • primary_expression
+
+    DOUBLE_LITERAL  偏移，并进入状态 1
+    SUB             偏移，并进入状态 2
+    LP              偏移，并进入状态 3
+
+    primary_expression  转到状态 24
+
+
+状态 18
+
+   13 primary_expression: primary_expression SUB1 •
+
+    $default  使用规则 13 以归约 (primary_expression)
+
+
+状态 19
+
+   14 primary_expression: primary_expression ADD1 •
+
+    $default  使用规则 14 以归约 (primary_expression)
+
+
+状态 20
+
+   11 primary_expression: LP expression RP •
+
+    $default  使用规则 11 以归约 (primary_expression)
+
+
+状态 21
+
+    5 expression: expression ADD term •
+    8 term: term • MUL primary_expression
+    9     | term • DIV primary_expression
+
+    MUL  偏移，并进入状态 16
+    DIV  偏移，并进入状态 17
+
+    $default  使用规则 5 以归约 (expression)
+
+
+状态 22
+
+    6 expression: expression SUB term •
+    8 term: term • MUL primary_expression
+    9     | term • DIV primary_expression
+
+    MUL  偏移，并进入状态 16
+    DIV  偏移，并进入状态 17
+
+    $default  使用规则 6 以归约 (expression)
+
+
+状态 23
+
+    8 term: term MUL primary_expression •
+   13 primary_expression: primary_expression • SUB1
+   14                   | primary_expression • ADD1
+
+    SUB1  偏移，并进入状态 18
+    ADD1  偏移，并进入状态 19
+
+    $default  使用规则 8 以归约 (term)
+
+
+状态 24
+
+    9 term: term DIV primary_expression •
+   13 primary_expression: primary_expression • SUB1
+   14                   | primary_expression • ADD1
+
+    SUB1  偏移，并进入状态 18
+    ADD1  偏移，并进入状态 19
+
+    $default  使用规则 9 以归约 (term)

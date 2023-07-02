@@ -1,0 +1,38 @@
+# Project: claclang
+# Makefile created by Red Panda C++ 2.21
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = claclang_private.res
+OBJ      = lex.yy.o y.tab.o $(RES)
+LINKOBJ  = lex.yy.o y.tab.o claclang_private.res
+CLEANOBJ  =  lex.yy.o y.tab.o  claclang_private.res claclang.exe
+LIBS     = 
+INCS     =  
+CXXINCS  =  
+BIN      = claclang.exe
+CXXFLAGS = $(CXXINCS)  -g3 -pipe -Wall -D__DEBUG__
+CFLAGS   = $(INCS)  -g3 -pipe -Wall -D__DEBUG__
+RM       = del /q /f
+WINDRESFLAGS  = 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+lex.yy.o: lex.yy.c
+	$(CC) -c lex.yy.c -o lex.yy.o $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+y.tab.o: y.tab.c
+	$(CC) -c y.tab.c -o y.tab.o $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+claclang_private.res: claclang_private.rc 
+	$(WINDRES) -i claclang_private.rc --input-format=rc -o claclang_private.res -O coff $(WINDRESFLAGS) 
+
